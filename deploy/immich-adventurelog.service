@@ -1,0 +1,24 @@
+[Unit]
+Description=Immich to AdventureLog review UI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=immich-adventurelog
+Group=immich-adventurelog
+WorkingDirectory=/AppData/immich2adventurelog/data
+EnvironmentFile=/AppData/immich2adventurelog/.env
+ExecStart=/usr/bin/python3 /AppData/immich2adventurelog/app/web_app.py --host 0.0.0.0 --port 8787 --manifest /AppData/immich2adventurelog/data/immich-manifest.json --plan /AppData/immich2adventurelog/data/immich-review-plan.json --state /AppData/immich2adventurelog/data/immich-review-state.json --poi-cache /AppData/immich2adventurelog/data/ui-poi-cache.json
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/AppData/immich2adventurelog/data
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
